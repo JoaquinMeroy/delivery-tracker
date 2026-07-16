@@ -102,6 +102,12 @@ router.post(
       const order = await Order.findById(req.params.id);
       if (!order) return res.status(404).json({ error: "Order not found" });
 
+      const io = req.app.get("io");
+      if (io) {
+        io.to(`order:${order._id}`).emit("order-updated", order);
+        io.emit("orders-changed");
+      }
+
       if (order.status !== "pending" || order.rider) {
         return res
           .status(409)
@@ -134,6 +140,12 @@ router.patch(
     try {
       const { status } = req.body;
       const order = await Order.findById(req.params.id);
+
+      const io = req.app.get("io");
+      if (io) {
+        io.to(`order:${order._id}`).emit("order-updated", order);
+        io.emit("orders-changed");
+      }
 
       if (!order) return res.status(404).json({ error: "Order not found" });
       if (!order.rider || order.rider.toString() !== req.user._id.toString()) {

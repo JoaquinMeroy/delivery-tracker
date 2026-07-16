@@ -11,11 +11,22 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import type { LatLng } from "../types/tracking";
 
+import markerIconPng from "leaflet/dist/images/marker-icon.png";
+import markerShadowPng from "leaflet/dist/images/marker-shadow.png";
+
 const riderIcon = new L.Icon({
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+  iconUrl: markerIconPng,
+  shadowUrl: markerShadowPng,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
+});
+
+const destinationIcon = new L.Icon({
+  iconUrl: markerIconPng,
+  shadowUrl: markerShadowPng,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  className: "destination-marker-tint",
 });
 
 function useAnimatedPosition(
